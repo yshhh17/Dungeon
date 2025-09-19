@@ -3,7 +3,7 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 
 SECRET_KEY = "welcomeback"
-ALGORITHM = "H256"
+ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
