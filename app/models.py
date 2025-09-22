@@ -19,5 +19,3 @@ class File(Base):
     filename = Column(String, nullable = False)
     filepath = Column(String, nullable = False)
     uploaded_at = Column(DateTime, default = datetime.utcnow)
-
-    owner = relationship("User)
