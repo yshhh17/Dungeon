@@ -4,9 +4,11 @@ from jose import jwt, JWTError
 from app import models 
 from app.database import SessionLocal
 from sqlalchemy.orm import Session
+from dotenv import load_dotenv
+import os
 
-SECRET_KEY = "welcomeback"
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("KEY")
+ALGORITHM = os.getenv("ALGO")
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl = "/login")
 
