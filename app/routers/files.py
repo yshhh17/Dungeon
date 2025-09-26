@@ -6,6 +6,7 @@ import shutil
 import os
 from app.routers.dependencies import get_current_user
 from fastapi.responses import FileResponse
+import asyncio
 
 router = APIRouter()
 
@@ -18,16 +19,19 @@ def get_db():
 
 UPLOAD_DIR = "uploads/"
 
-@router.post("/upload", response_model = schemas.FileOut)
-def upload_file(
+async def save_file(file: UploadFile, file_path: str):
+    data = await file.read()
+    await asyncio.to_thread(lambda: open(file_path, "wb").write(data))
+
+@router.post("/upload-async", response_model = schemas.FileOut)
+async def upload_file(
         file: UploadFile = FastAPIFile(...),
         current_user: models.User = Depends(get_current_user),
         db: Session = Depends(get_db)
 ):
     file_path = os.path.join(UPLOAD_DIR, file.filename)
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
 
+    await save_file(file, file_path)
 
     db_file = models.File(
             owner_id = current_user.id,

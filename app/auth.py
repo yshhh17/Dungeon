@@ -6,7 +6,7 @@ import os
 
 SECRET_KEY = os.getenv("KEY")
 ALGORITHM = os.getenv("ALGO")
-ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("Expiry")
+ACCESS_TOKEN_EXPIRE_MINUTES =int(os.getenv("Expiry"))
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
