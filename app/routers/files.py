@@ -7,6 +7,8 @@ import os
 from app.routers.dependencies import get_current_user
 from fastapi.responses import FileResponse
 import asyncio
+import threading
+from app.scanner import scan_file
 
 router = APIRouter()
 
@@ -41,6 +43,9 @@ async def upload_file(
     db.add(db_file)
     db.commit()
     db.refresh(db_file)
+
+    threading.Thread(
+            target=scan_file, args=(file_path, db, current_user.id, db.file.id)).start()
 
     return db_file
 

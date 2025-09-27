@@ -21,3 +21,11 @@ class FileOut(BaseModel):
     filepath: str
     owner_id: int
     uploaded_at: datetime
+
+class AlertOut(BaseModel):
+    id: int
+    user_id: int
+    file_id: int
+    type: str
+    description: str
+    timestamp: datetime
