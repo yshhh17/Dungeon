@@ -12,7 +12,8 @@ class User(Base):
     hashed_password = Column(String, nullable = False)
     created_at = Column(DateTime, default = datetime.utcnow)
 
-    uploads = relationship("Upload", back_populates = "user")
+    files = relationship("File", back_populates="user")
+    alerts = relationship("Alert", back_populates="user")
 
 class File(Base):
     __tablename__ = "files"
@@ -23,7 +24,8 @@ class File(Base):
     filepath = Column(String, nullable = False)
     uploaded_at = Column(DateTime, default = datetime.utcnow)
 
-    uploads = relationship("Upload", back_populates="file")
+    user = relationship("User", back_populates="files")
+    alerts = relationship("Alert", back_populates="file")
 
 
 class Alert(Base):
@@ -36,5 +38,5 @@ class Alert(Base):
     description = Column(String)
     timestamp = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="uploads")
-    file = relationship("File", back_populates="uploads")
+    user = relationship("User", back_populates="alerts")
+    file = relationship("File", back_populates="alerts")

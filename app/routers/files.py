@@ -45,7 +45,7 @@ async def upload_file(
     db.refresh(db_file)
 
     threading.Thread(
-            target=scan_file, args=(file_path, db, current_user.id, db.file.id)).start()
+            target=scan_file, args=(file_path, db, current_user.id, db_file.id)).start()
 
     return db_file
 
