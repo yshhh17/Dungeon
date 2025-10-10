@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app import models, schemas
 from app.database import SessionLocal
 from app.auth import hash_password, verify_password, create_access_token
+from app.schemas import UserOut
+from app.routers.dependencies import get_current_user
 
 router = APIRouter()
 
@@ -12,6 +14,10 @@ def get_db():
         yield db
     finally:
         db.close()
+
+@router.get("/me", response_model=schemas.UserOut)
+def read_me(current_user: models.User = Depends(get_current_user)):
+    return current_user
 
 
 @router.post("/register")
