@@ -67,3 +67,33 @@ def download_file(file_id: int, current_user: models.User = Depends(get_current_
             filename = db_file.filename,
             media_type = "application/octet-stream"
     )
+
+
+@router.get("/files")
+def list_files(current_user: models.User = Depends(get_current_user), db: Session = Depends(get_db)):
+    return db.query(models.File).filter(models.File.owner_id == current_user.id).all()
+
+@router.delete("/delete/{file_id}")
+def delete_file(
+    file_id: int,
+    current_user: models.User = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+    db_file = db.query(models.File).filter(models.File.id == file_id).first()
+
+    if not db_file:
+        raise HTTPException(status_code=404, detail="File not found")
+
+    if db_file.owner_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Not authorized to delete this file")
+
+    if os.path.exists(db_file.filepath):
+        try:
+            os.remove(db_file.filepath)
+        except exception as e:
+            raise HTTPException(status_code=500, detail=f"Error deleting file: {str(e)}")
+
+    db.delete(db_file)
+    db.commit()
+
+    return {"message": f"file '{db_file.filename}' deleted successfully"}
