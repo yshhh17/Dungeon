@@ -7,13 +7,8 @@ services:
     restart: always
     ports:
       - "8000:8000"
-    environment:
-      # App config
-      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/filesdb
-      KEY: welcomeback
-      ALGO: HS256
-      PORT: 8000
-      Expiry: 30
+    env_file:
+      - .env
     depends_on:
       - db
     volumes:
@@ -24,10 +19,8 @@ services:
     image: postgres:15
     container_name: postgres_db
     restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: filesdb
+    env_file:
+      - .env
     ports:
       - "5432:5432"
     volumes:
@@ -37,9 +30,8 @@ services:
     image: dpage/pgadmin4
     container_name: pgadmin
     restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+    env_file:
+      - .env
     ports:
       - "5050:80"
     depends_on:

@@ -9,7 +9,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); // clear previous errors
+    setError("");
 
     const res = await fetch("http://127.0.0.1:8000/login", {
       method: "POST",
@@ -18,11 +18,8 @@ export default function Login() {
     });
 
     const data = await res.json();
-
     if (res.ok) {
-      // ✅ Store token and redirect
       localStorage.setItem("token", data.access_token);
-      alert("Login success!");
       navigate("/dashboard");
     } else {
       setError(data.detail || "Invalid credentials");
@@ -30,28 +27,54 @@ export default function Login() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-4 w-80 mx-auto mt-40"
-    >
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="p-2 border rounded"
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className="p-2 border rounded"
-      />
-      <button className="bg-blue-500 text-white p-2 rounded" type="submit">
-        Login
-      </button>
-      {error && <p className="text-red-500">{error}</p>}
-    </form>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-gray-900/80 backdrop-blur-md p-8 rounded-2xl shadow-2xl w-full max-w-md border border-gray-700"
+      >
+        <h2 className="text-3xl font-bold text-center text-white mb-6">
+          Welcome Back 👋
+        </h2>
+
+        <div className="flex flex-col gap-4">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="p-3 rounded-lg bg-gray-800 text-white border border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none transition"
+          />
+
+          {error && (
+            <p className="text-red-400 text-sm text-center">{error}</p>
+          )}
+
+          <button
+            type="submit"
+            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-200"
+          >
+            Login
+          </button>
+        </div>
+
+        <p className="text-gray-400 text-sm text-center mt-6">
+          Don’t have an account?{" "}
+          <span
+            onClick={() => navigate("/register")}
+            className="text-blue-400 hover:text-blue-500 cursor-pointer"
+          >
+            Sign up
+          </span>
+        </p>
+      </form>
+    </div>
   );
 }
