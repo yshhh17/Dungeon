@@ -19,7 +19,9 @@ def get_db():
     finally:
         db.close()
 
-UPLOAD_DIR = "uploads/"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 async def save_file(file: UploadFile, file_path: str):
     data = await file.read()
