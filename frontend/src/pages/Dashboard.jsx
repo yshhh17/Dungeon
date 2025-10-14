@@ -10,7 +10,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const API_BASE = "http://127.0.0.1:8000";
+  const API_BASE = "https://dungeon-xjxk.onrender.com/";
 
   useEffect(() => {
     if (!token) {
