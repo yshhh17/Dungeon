@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config";
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
@@ -10,7 +11,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
   useEffect(() => {
     if (!token) {
@@ -20,14 +20,14 @@ export default function Dashboard() {
 
     const fetchUserAndFiles = async () => {
       try {
-        const userRes = await fetch(`${API_BASE}/me`, {
+        const userRes = await fetch(`${API_BASE_URL}/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!userRes.ok) throw new Error("Unauthorized");
         const userData = await userRes.json();
         setUser(userData);
 
-        const filesRes = await fetch(`${API_BASE}/files`, {
+        const filesRes = await fetch(`${API_BASE_URL}/files`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const filesData = await filesRes.json();
@@ -51,7 +51,7 @@ export default function Dashboard() {
     const formData = new FormData();
     formData.append("file", selectedFile);
 
-    const res = await fetch(`${API_BASE}/upload-async`, {
+    const res = await fetch(`${API_BASE_URL}/upload-async`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
@@ -71,7 +71,7 @@ export default function Dashboard() {
   const handleDelete = async (id) => {
     if (!confirm("Delete this file?")) return;
 
-    const res = await fetch(`${API_BASE}/delete/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/delete/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -81,7 +81,7 @@ export default function Dashboard() {
   };
 
   const handleDownload = async (id, filename) => {
-    const res = await fetch(`${API_BASE}/download/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/download/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) return alert("Failed to download file");
