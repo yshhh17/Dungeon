@@ -8,10 +8,12 @@ export default function Register() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const res = await fetch("http://127.0.0.1:8000/register", {
+    const res = await fetch(`${API_BASE}/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, email, password }),
