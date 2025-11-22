@@ -22,6 +22,8 @@ services:
     ports:
       - "5173:5173"
     environment:
+      # Note: VITE_API_URL is used by the browser (client-side), not by the container
+      # So it should point to localhost where the user's browser can reach the backend
       - VITE_API_URL=http://localhost:8000
     volumes:
       - ./frontend:/app
