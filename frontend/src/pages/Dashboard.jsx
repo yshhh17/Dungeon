@@ -11,7 +11,6 @@ export default function Dashboard() {
 
   const token = localStorage.getItem("token");
   const API_BASE = import.meta.env.VITE_API_URL;
-  console.log("API = ", import.meta.env.VITE_API_URL);
 
 
   useEffect(() => {
