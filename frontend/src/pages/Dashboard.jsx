@@ -10,7 +10,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const API_BASE = import.meta.env.API_URL;
+  const API_BASE = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!token) {
