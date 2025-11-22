@@ -47,33 +47,18 @@ A secure file management application with user authentication, file upload/downl
    cd Dungeon
    ```
 
-2. **Set up environment variables**
-   
-   Create a `.env` file in the `backend` directory with the following:
-   ```env
-   DATABASE_URL=postgresql://postgres:postgres@db:5432/dungeon_db
-   KEY=your-secret-key-change-in-production
-   ALGO=HS256
-   Expiry=30
-   PGADMIN_DEFAULT_EMAIL=admin@admin.com
-   PGADMIN_DEFAULT_PASSWORD=admin
-   POSTGRES_USER=postgres
-   POSTGRES_PASSWORD=postgres
-   POSTGRES_DB=dungeon_db
-   ```
-
-3. **Start the backend services**
+2. **Start the backend services**
    ```bash
    docker compose up -d
    ```
 
-4. **Access the services**
+3. **Access the services**
    - **Backend API**: http://localhost:8000
    - **API Documentation**: http://localhost:8000/docs
    - **PgAdmin**: http://localhost:5050
    - **PostgreSQL**: localhost:5432
 
-5. **Start the frontend** (in a new terminal)
+4. **Start the frontend** (in a new terminal)
    ```bash
    cd frontend
    npm install
